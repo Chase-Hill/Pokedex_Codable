@@ -14,12 +14,30 @@ class PokemonViewController: UIViewController {
     @IBOutlet weak var pokemonSpriteImageView: UIImageView!
     @IBOutlet weak var pokemonMovesTableView: UITableView!
     
-    var pokemon: Pokemon?
+    // MARK: - Properties
+    var pokemon: Pokemon? {
+        didSet {
+            updateViews()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         pokemonMovesTableView.delegate = self
         pokemonMovesTableView.dataSource = self
+    }
+    
+    func updateViews() {
+        guard let pokemon = pokemon else { return }
+        NetworkingController.fetchImage(for: pokemon.sprites.frontShiny) { result in
+            switch result {
+            case .success(let sprite):
+                self.pokemonSpriteImageView.image = sprite
+                self.pokemonMovesTableView.reloadData()
+            case .failure(let error):
+                print(error.errorDescription ?? "An Unknown Error Has Occured")
+            }
+        }
     }
 }// End
 
@@ -30,12 +48,18 @@ extension PokemonViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return pokemon?.moves.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "moveCell", for: indexPath)
+        
+        guard let pokemonIndex = pokemon?.moves[indexPath.row] else { return UITableViewCell() }
+        var config = cell.defaultContentConfiguration()
+        config.text = pokemonIndex.name
+        cell.contentConfiguration = config
+        
         return cell
     }
 }
