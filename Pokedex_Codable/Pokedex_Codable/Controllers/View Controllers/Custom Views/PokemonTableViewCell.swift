@@ -29,6 +29,7 @@ class PokemonTableViewCell: UITableViewCell {
                     self?.pokemonNameLabel.text = pokemon.name.capitalized
                     self?.pokemonIDLabel.text = "No: \(pokemon.id)"
                 }
+                
             case .failure(let error):
                 print("There was an error!", error.errorDescription!)
             }
@@ -49,6 +50,5 @@ class PokemonTableViewCell: UITableViewCell {
                 print("There was an error!", error.errorDescription!)
             }
         }
-       
     }
 }

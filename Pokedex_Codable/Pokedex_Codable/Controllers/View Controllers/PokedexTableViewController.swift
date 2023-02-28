@@ -9,6 +9,7 @@ import UIKit
 
 class PokedexTableViewController: UITableViewController {
     
+    // MARK: - Properties
     var pokedexResults: [PokemonResults] = []
     
     override func viewDidLoad() {
@@ -40,14 +41,21 @@ class PokedexTableViewController: UITableViewController {
         return cell
     }
     
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
-    
+    // MARK: - Navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard segue.identifier == "toPokemonDetail",
+              let pokemonDetailVC = segue.destination as? PokemonViewController,
+              let indexPath = tableView.indexPathForSelectedRow?.row else { return }
+        let pokemonToSend = pokedexResults[indexPath]
+        NetworkingController.fetchPokemon(with: pokemonToSend.url) { result in
+            switch result {
+            case .success(let pokemon):
+                DispatchQueue.main.async {
+                    pokemonDetailVC.pokemon = pokemon
+                }
+            case .failure(let error):
+                print(error.errorDescription ?? "An Unknown Error Has Occured")
+            }
+        }
+    }
 }

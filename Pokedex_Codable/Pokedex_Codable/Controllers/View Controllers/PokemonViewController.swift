@@ -9,20 +9,19 @@ import UIKit
 
 class PokemonViewController: UIViewController {
 
-    @IBOutlet weak var pokemonSearchBar: UISearchBar!
     @IBOutlet weak var pokemonIDLabel: UILabel!
     @IBOutlet weak var pokemonNameLabel: UILabel!
     @IBOutlet weak var pokemonSpriteImageView: UIImageView!
     @IBOutlet weak var pokemonMovesTableView: UITableView!
     
+    var pokemon: Pokemon?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         pokemonMovesTableView.delegate = self
         pokemonMovesTableView.dataSource = self
-        pokemonSearchBar.delegate = self
     }
 }// End
-
 
 extension PokemonViewController: UITableViewDelegate, UITableViewDataSource {
     
@@ -38,11 +37,5 @@ extension PokemonViewController: UITableViewDelegate, UITableViewDataSource {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "moveCell", for: indexPath)
         return cell
-    }
-}
-
-extension PokemonViewController: UISearchBarDelegate {
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-
     }
 }

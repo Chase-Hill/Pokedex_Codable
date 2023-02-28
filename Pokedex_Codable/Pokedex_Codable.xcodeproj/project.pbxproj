@@ -66,11 +66,10 @@
 		418FA66E27B2349C00ABEC96 /* Pokedex_Codable */ = {
 			isa = PBXGroup;
 			children = (
+				418FA68427B2366E00ABEC96 /* Supporting Files */,
+				AF3D983F29AEB20000A13C2C /* Storyboard */,
 				418FA68727B236DE00ABEC96 /* Model */,
 				418FA68827B2371500ABEC96 /* Controllers */,
-				418FA68427B2366E00ABEC96 /* Supporting Files */,
-				418FA67527B2349C00ABEC96 /* Main.storyboard */,
-				418FA67A27B2349D00ABEC96 /* LaunchScreen.storyboard */,
 			);
 			path = Pokedex_Codable;
 			sourceTree = "<group>";
@@ -128,6 +127,15 @@
 				418FA69327B23A9500ABEC96 /* PokemonTableViewCell.swift */,
 			);
 			path = "Custom Views";
+			sourceTree = "<group>";
+		};
+		AF3D983F29AEB20000A13C2C /* Storyboard */ = {
+			isa = PBXGroup;
+			children = (
+				418FA67527B2349C00ABEC96 /* Main.storyboard */,
+				418FA67A27B2349D00ABEC96 /* LaunchScreen.storyboard */,
+			);
+			path = Storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
