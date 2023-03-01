@@ -9,7 +9,7 @@ import Foundation
 
 enum ResultError: LocalizedError {
     
-    case invalidURL(URL)
+    case invalidURL
     case thrownError(Error)
     case noData
     case unableToDecode
@@ -18,8 +18,8 @@ enum ResultError: LocalizedError {
     
     var errorDescription: String? {
         switch self {
-        case .invalidURL(let url):
-            return "Unable to reach the server. Please try again.\(url)"
+        case .invalidURL:
+            return "Unable to reach the server. Please try again."
         case .thrownError(let error):
             return "Error: \(error.localizedDescription) -> \(error)"
         case .noData:

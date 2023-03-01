@@ -32,8 +32,10 @@ class PokemonViewController: UIViewController {
         NetworkingController.fetchImage(for: pokemon.sprites.frontShiny) { result in
             switch result {
             case .success(let sprite):
-                self.pokemonSpriteImageView.image = sprite
-                self.pokemonMovesTableView.reloadData()
+                DispatchQueue.main.async {
+                    self.pokemonSpriteImageView.image = sprite
+                    self.pokemonMovesTableView.reloadData()
+                }
             case .failure(let error):
                 print(error.errorDescription ?? "An Unknown Error Has Occured")
             }
@@ -57,7 +59,7 @@ extension PokemonViewController: UITableViewDelegate, UITableViewDataSource {
         
         guard let pokemonIndex = pokemon?.moves[indexPath.row] else { return UITableViewCell() }
         var config = cell.defaultContentConfiguration()
-        config.text = pokemonIndex.name
+        config.text = pokemonIndex.move.name
         cell.contentConfiguration = config
         
         return cell

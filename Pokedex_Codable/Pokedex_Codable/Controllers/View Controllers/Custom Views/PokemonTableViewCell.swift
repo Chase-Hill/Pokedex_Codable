@@ -21,7 +21,7 @@ class PokemonTableViewCell: UITableViewCell {
     
     func updateViews(pokemonURlString: String) {
         // get the pokemon, nest the image
-        NetworkingController.fetchPokemon(with: pokemonURlString) { [weak self]result in
+        NetworkingController.fetchPokemon(with: pokemonURlString) { [weak self] result in
             switch result {
             case .success(let pokemon):
                 self?.fetchImage(with:pokemon)
@@ -38,7 +38,7 @@ class PokemonTableViewCell: UITableViewCell {
     
     func fetchImage(with pokemon: Pokemon) {
         
-        NetworkingController.fetchImage(for: pokemon.sprites.frontDefault) {[weak self] result in
+        NetworkingController.fetchImage(for: pokemon.sprites.frontShiny) {[weak self] result in
             switch result {
             case .success(let image):
                 DispatchQueue.main.async {

@@ -16,9 +16,11 @@ struct NetworkingController {
     private static let kV2Compmonent = "v2"
     
     // TODO - Update to a URL as a parameter to allow for pagination
-    static func fetchPokedex(with url: URL, completion: @escaping(Result<Pokedex, ResultError>) -> Void) {
+    static func fetchPokedex(with url: String, completion: @escaping(Result<Pokedex, ResultError>) -> Void) {
         
-        URLSession.shared.dataTask(with: url) { dTaskData, _, error in
+        guard let finalURL = URL(string: url) else { completion(.failure(.invalidURL)) ; return }
+        
+        URLSession.shared.dataTask(with: finalURL) { dTaskData, _, error in
             if let error = error {
                 print("Encountered error: \(error.localizedDescription)")
                 completion(.failure(.thrownError(error)))
@@ -40,11 +42,13 @@ struct NetworkingController {
     }
     
     static func fetchPokemon(with urlString: String, completion: @escaping (Result<Pokemon, ResultError>) -> Void) {
+        
         guard let pokemonURL = URL(string: urlString) else {return}
+        
         URLSession.shared.dataTask(with: pokemonURL) { dTaskData, _, error in
             if let error = error {
                 print("Encountered error: \(error.localizedDescription)")
-                completion(.failure(.thrownError(error)))
+                completion(.failure(.thrownError(error))) ; return
             }
             
             guard let pokemonData = dTaskData else {
@@ -57,7 +61,7 @@ struct NetworkingController {
                 completion(.success(pokemon))
             } catch {
                 print("Encountered error when decoding the data:", error.localizedDescription)
-                completion(.failure(.unableToDecode))
+                completion(.failure(.unableToDecode)) ; return
             }
         }.resume()
     }
